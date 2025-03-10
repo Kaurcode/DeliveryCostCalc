@@ -2,7 +2,8 @@ package com.fujitsu.deliverycostcalc;
 
 
 public class WeatherData {
-
+    // TODO: Use a correct timestamp class and parse it correctly
+    private String timestamp;
     private double airTemperature;
     private double windSpeed;
     private Phenomenon phenomenon;
