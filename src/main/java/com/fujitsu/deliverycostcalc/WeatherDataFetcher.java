@@ -14,7 +14,9 @@ import java.net.HttpURLConnection;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Set;
 
 public class WeatherDataFetcher {
     private static final String WEATHER_DATA_URL = "https://www.ilmateenistus.ee/ilma_andmed/xml/observations.php";
@@ -29,10 +31,8 @@ public class WeatherDataFetcher {
     private static final String WIND_SPEED_TAG = "windspeed";
     private static final String WEATHER_PHENOMENON_TAG = "phenomenon";
 
-    private static final String[] WEATHER_ATTRIBUTE_TAGS = new String[]{WMO_CODE_TAG,  AIR_TEMPERATURE_TAG, WIND_SPEED_TAG, WEATHER_PHENOMENON_TAG};
-
     public static void main(String[] args) throws ParserConfigurationException, IOException, SAXException {
-        readXML();
+        // readXML();
     }
 
     private static String getXmlElementValue(Element element, String tagName) {
@@ -40,13 +40,14 @@ public class WeatherDataFetcher {
         return (0 < nodeList.getLength()) ? nodeList.item(0).getTextContent() : "N/A";
     }
 
-    private static void readXML() throws ParserConfigurationException, IOException, SAXException {
+    private static void readXML(HashMap<String, City> cities) throws ParserConfigurationException, IOException, SAXException {
+        Set<String> stationNames = new HashSet<>(cities.keySet());
+
         DocumentBuilder builder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
         Document doc = builder.parse(WEATHER_DATA_URL);
         doc.getDocumentElement().normalize();
 
         String timestamp = doc.getDocumentElement().getAttribute(TIMESTAMP_TAG);
-        System.out.println("Timestamp: " + timestamp);
 
         NodeList stations = doc.getElementsByTagName(STATION_TAG);
 
@@ -58,15 +59,25 @@ public class WeatherDataFetcher {
 
                 String stationName = getXmlElementValue(element, STATION_NAME_TAG);
 
-                if (STATION_NAMES.contains(stationName)) {
-                    System.out.println(stationName);
+                City city = cities.get(stationName);
+                if (city != null) {
+                    String wmoCode = getXmlElementValue(element, WMO_CODE_TAG);
+                    String airTemperature = getXmlElementValue(element, AIR_TEMPERATURE_TAG);
+                    String windSpeed = getXmlElementValue(element, WIND_SPEED_TAG);
+                    String phenomenon = getXmlElementValue(element, WEATHER_PHENOMENON_TAG);
 
-                    for (String tag : WEATHER_ATTRIBUTE_TAGS) {
-                        System.out.println(getXmlElementValue(element, tag));
-                    }
+                    WeatherData data = new WeatherData(
+                            timestamp,
+                            airTemperature,
+                            windSpeed,
+                            phenomenon
+                    );
 
-                    STATION_NAMES.remove(stationName);
-                    if (STATION_NAMES.isEmpty()) {
+                    city.refreshWMOCode(wmoCode);
+                    city.addWeatherData(data);
+
+                    stationNames.remove(stationName);
+                    if (stationNames.isEmpty()) {
                         break;
                     }
                 }
