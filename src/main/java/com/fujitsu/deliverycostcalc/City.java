@@ -1,22 +1,37 @@
 package com.fujitsu.deliverycostcalc;
 
+import jakarta.persistence.*;
+
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
+@Entity
+@Table(name="CITY")
 public class City {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name="ID")
+    private Long id;
+
+    @Column(name="NAME", unique=true, nullable=false)
     private String name;
+    @Column(name="STATION_NAME", nullable=false)
     private String stationName;
+    @Column(name="WMO_CODE")
     private String wmocode;
 
+    @Transient
     private Map<VehicleType, Money> vehicleToMoneyMap;
 
-    private ArrayList<WeatherData> weatherDataList;
+    @OneToMany(mappedBy="city", fetch=FetchType.LAZY, cascade=CascadeType.ALL)
+    private List<WeatherData> weatherDataList = new ArrayList<>();
+
+    protected City() {}
 
     public City(String name, String stationName) {
         this.name = name;
         this.stationName = stationName;
-
-        this.weatherDataList = new ArrayList<>();
     }
 
     public String getStationName() {
@@ -28,12 +43,13 @@ public class City {
             return;
         }
 
-        System.out.printf("Refreshing WMO code for %s, old WMO code is: %s; new WMO code is: %s",
+        System.out.printf("Refreshing WMO code for %s, old WMO code is: %s; new WMO code is: %s\n",
                 name, this.wmocode, wmocode);
         this.wmocode = wmocode;
     }
 
     public void addWeatherData(WeatherData weatherData) {
         this.weatherDataList.add(weatherData);
+        weatherData.setCity(this);
     }
 }
