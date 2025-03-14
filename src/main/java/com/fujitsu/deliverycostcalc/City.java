@@ -5,21 +5,26 @@ import java.util.Map;
 
 public class City {
     private String name;
+    private String stationName;
     private String wmocode;
 
     private Map<VehicleType, Money> vehicleToMoneyMap;
 
     private ArrayList<WeatherData> weatherDataList;
 
-    public City(String name, String wmocode) {
+    public City(String name, String stationName) {
         this.name = name;
-        this.wmocode = wmocode;
+        this.stationName = stationName;
 
         this.weatherDataList = new ArrayList<>();
     }
 
+    public String getStationName() {
+        return stationName;
+    }
+
     public void refreshWMOCode(String wmocode) {
-        if (this.wmocode.equals(wmocode)) {
+        if (this.wmocode != null && this.wmocode.equals(wmocode)) {
             return;
         }
 
