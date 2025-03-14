@@ -1,5 +1,6 @@
 package com.fujitsu.deliverycostcalc;
 
+import java.util.ArrayList;
 import java.util.Map;
 
 public class City {
@@ -8,5 +9,12 @@ public class City {
 
     Map<VehicleType, Money> vehicleToMoneyMap;
 
-    WeatherData latestWeatherData;
+    ArrayList<WeatherData> weatherDataList;
+
+    public City(String name, String wmocode) {
+        this.name = name;
+        this.wmocode = wmocode;
+
+        this.weatherDataList = new ArrayList<>();
+    }
 }
