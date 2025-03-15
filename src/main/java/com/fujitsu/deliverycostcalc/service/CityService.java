@@ -1,4 +1,6 @@
-package com.fujitsu.deliverycostcalc;
+package com.fujitsu.deliverycostcalc.service;
+
+import com.fujitsu.deliverycostcalc.entity.City;
 
 import java.util.List;
 import java.util.Optional;

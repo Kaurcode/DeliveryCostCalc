@@ -1,5 +1,6 @@
 package com.fujitsu.deliverycostcalc;
 
+import com.fujitsu.deliverycostcalc.entity.City;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.xml.sax.SAXException;

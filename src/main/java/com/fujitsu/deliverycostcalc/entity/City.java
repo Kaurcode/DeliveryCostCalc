@@ -1,5 +1,7 @@
-package com.fujitsu.deliverycostcalc;
+package com.fujitsu.deliverycostcalc.entity;
 
+import com.fujitsu.deliverycostcalc.Money;
+import com.fujitsu.deliverycostcalc.VehicleType;
 import jakarta.persistence.*;
 
 import java.util.ArrayList;

@@ -1,5 +1,7 @@
 package com.fujitsu.deliverycostcalc;
 
+import com.fujitsu.deliverycostcalc.exception.InvalidMoneyException;
+
 public class Money implements Comparable<Money> {
     private int cents;
 

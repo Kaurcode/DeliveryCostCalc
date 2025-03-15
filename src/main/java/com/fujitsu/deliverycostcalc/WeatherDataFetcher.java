@@ -1,5 +1,8 @@
 package com.fujitsu.deliverycostcalc;
 
+import com.fujitsu.deliverycostcalc.entity.City;
+import com.fujitsu.deliverycostcalc.entity.WeatherData;
+import com.fujitsu.deliverycostcalc.exception.HttpResponseException;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -13,7 +16,6 @@ import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;

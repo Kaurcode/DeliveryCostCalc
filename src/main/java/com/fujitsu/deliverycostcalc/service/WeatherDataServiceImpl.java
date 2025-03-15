@@ -1,5 +1,8 @@
-package com.fujitsu.deliverycostcalc;
+package com.fujitsu.deliverycostcalc.service;
 
+import com.fujitsu.deliverycostcalc.entity.City;
+import com.fujitsu.deliverycostcalc.entity.WeatherData;
+import com.fujitsu.deliverycostcalc.repository.WeatherDataRepository;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;

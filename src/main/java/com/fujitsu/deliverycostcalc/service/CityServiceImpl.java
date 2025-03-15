@@ -1,12 +1,14 @@
-package com.fujitsu.deliverycostcalc;
+package com.fujitsu.deliverycostcalc.service;
 
+import com.fujitsu.deliverycostcalc.entity.City;
+import com.fujitsu.deliverycostcalc.repository.CityRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
 @Service
-public class CityServiceImpl implements CityService{
+public class CityServiceImpl implements CityService {
     private final CityRepository cityRepository;
 
     public CityServiceImpl(CityRepository cityRepository) {
