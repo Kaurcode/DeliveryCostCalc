@@ -39,4 +39,14 @@ public class WeatherData {
     public void setCity(City city) {
         this.city = city;
     }
+
+    @Override
+    public String toString() {
+        return "\tWeatherData {" +
+                "\n\t\ttimestamp: " + timestamp +
+                "\n\t\tairTemperature: " + airTemperature +
+                "\n\t\twindSpeed: " + windSpeed +
+                "\n\t\tphenomenon: " + phenomenon +
+                "\n\t}\n";
+    }
 }

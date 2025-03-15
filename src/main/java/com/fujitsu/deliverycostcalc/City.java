@@ -52,4 +52,23 @@ public class City {
         this.weatherDataList.add(weatherData);
         weatherData.setCity(this);
     }
+
+    @Override
+    public String toString() {
+        StringBuilder result = new StringBuilder();
+        result
+                .append("City {")
+                .append("\n\tname: ").append(name)
+                .append("\n\tstationName: ").append(stationName)
+                .append("\n\twmocode: ").append(wmocode)
+                .append('\n');
+
+        for (WeatherData weatherData : weatherDataList) {
+            result.append("\n").append(weatherData.toString());
+        }
+
+        result.append("}\n");
+
+        return result.toString();
+    }
 }

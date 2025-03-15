@@ -20,7 +20,6 @@ import java.util.Set;
 
 public class WeatherDataFetcher {
     private static final String WEATHER_DATA_URL = "https://www.ilmateenistus.ee/ilma_andmed/xml/observations.php";
-    private static final HashSet<String> STATION_NAMES = new HashSet<>(Arrays.asList("Tallinn-Harku", "Tartu-Tõravere", "Pärnu"));
 
     private static final String TIMESTAMP_TAG = "timestamp";
     private static final String STATION_TAG = "station";
@@ -40,7 +39,7 @@ public class WeatherDataFetcher {
         return (0 < nodeList.getLength()) ? nodeList.item(0).getTextContent() : "N/A";
     }
 
-    private static void readXML(HashMap<String, City> cities) throws ParserConfigurationException, IOException, SAXException {
+    public static void readXML(HashMap<String, City> cities) throws ParserConfigurationException, IOException, SAXException {
         Set<String> stationNames = new HashSet<>(cities.keySet());
 
         DocumentBuilder builder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
