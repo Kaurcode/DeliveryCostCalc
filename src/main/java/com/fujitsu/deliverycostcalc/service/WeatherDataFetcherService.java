@@ -27,7 +27,6 @@ public class WeatherDataFetcherService {
 
     private static final String TIMESTAMP_TAG = "timestamp";
     private static final String STATION_TAG = "station";
-
     private static final String STATION_NAME_TAG = "name";
     private static final String WMO_CODE_TAG = "wmocode";
     private static final String AIR_TEMPERATURE_TAG = "airtemperature";
@@ -78,13 +77,13 @@ public class WeatherDataFetcherService {
                             timestamp,
                             airTemperature,
                             windSpeed,
-                            phenomenon
+                            phenomenon,
+                            city
                     );
 
-                    city.refreshWMOCode(wmoCode);
-
-                    city.addWeatherData(data);
                     weatherDataService.saveWeatherData(data);
+
+                    city.refreshWMOCode(wmoCode);
                     cityService.saveCity(city);
 
                     stationNames.remove(stationName);

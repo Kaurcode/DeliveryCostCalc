@@ -8,5 +8,4 @@ public class DeliveryCostCalcApplication {
     public static void main(String[] args) {
         SpringApplication.run(DeliveryCostCalcApplication.class, args);
     }
-
 }

@@ -30,11 +30,12 @@ public class WeatherData {
 
     protected WeatherData() {}
 
-    public WeatherData(String timestamp, String airTemperature, String windSpeed, String phenomenon) {
+    public WeatherData(String timestamp, String airTemperature, String windSpeed, String phenomenon, City city) {
         this.timestamp = Instant.ofEpochSecond(Long.parseLong(timestamp));
         this.airTemperature = Double.parseDouble(airTemperature);
         this.windSpeed = Double.parseDouble(windSpeed);
         this.phenomenon = Phenomenon.parsePhenomenon(phenomenon);
+        this.city = city;
     }
 
     public void setCity(City city) {
