@@ -11,3 +11,7 @@
 [Java Guides: JPA/Hibernate One to Many Bidirectional Mapping Example by Ramesh Fadatare](https://www.javaguides.net/2019/08/jpa-hibernate-one-to-many-bidirectional-mapping-example.html)
 
 [Spring Boot JPA documentation](https://docs.spring.io/spring-data/jpa/reference/jpa.html)
+
+## Task Scheduling
+
+[Spring Boot Guide: Scheduling Tasks](https://spring.io/guides/gs/scheduling-tasks)
