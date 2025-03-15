@@ -16,7 +16,7 @@ public class City {
 
     @Column(name="NAME", unique=true, nullable=false)
     private String name;
-    @Column(name="STATION_NAME", nullable=false)
+    @Column(name="STATION_NAME", unique=true, nullable=false)
     private String stationName;
     @Column(name="WMO_CODE")
     private String wmocode;
