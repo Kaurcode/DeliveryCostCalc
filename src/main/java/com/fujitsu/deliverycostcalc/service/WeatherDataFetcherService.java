@@ -1,8 +1,9 @@
-package com.fujitsu.deliverycostcalc;
+package com.fujitsu.deliverycostcalc.service;
 
 import com.fujitsu.deliverycostcalc.entity.City;
 import com.fujitsu.deliverycostcalc.entity.WeatherData;
 import com.fujitsu.deliverycostcalc.exception.HttpResponseException;
+import org.springframework.stereotype.Service;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -20,7 +21,8 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
 
-public class WeatherDataFetcher {
+@Service
+public class WeatherDataFetcherService {
     private static final String WEATHER_DATA_URL = "https://www.ilmateenistus.ee/ilma_andmed/xml/observations.php";
 
     private static final String TIMESTAMP_TAG = "timestamp";
@@ -32,8 +34,12 @@ public class WeatherDataFetcher {
     private static final String WIND_SPEED_TAG = "windspeed";
     private static final String WEATHER_PHENOMENON_TAG = "phenomenon";
 
-    public static void main(String[] args) throws ParserConfigurationException, IOException, SAXException {
-        // readXML();
+    private final CityService cityService;
+    private final WeatherDataService weatherDataService;
+
+    public WeatherDataFetcherService(CityService cityService, WeatherDataService weatherDataService) {
+        this.cityService = cityService;
+        this.weatherDataService = weatherDataService;
     }
 
     private static String getXmlElementValue(Element element, String tagName) {
@@ -41,8 +47,9 @@ public class WeatherDataFetcher {
         return (0 < nodeList.getLength()) ? nodeList.item(0).getTextContent() : "N/A";
     }
 
-    public static void readXML(HashMap<String, City> cities) throws ParserConfigurationException, IOException, SAXException {
-        Set<String> stationNames = new HashSet<>(cities.keySet());
+    public void fetchWeatherData() throws ParserConfigurationException, IOException, SAXException {
+        HashMap<String, City> citiesByStationName = cityService.getCitiesMappedByStationName();
+        Set<String> stationNames = new HashSet<>(citiesByStationName.keySet());
 
         DocumentBuilder builder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
         Document doc = builder.parse(WEATHER_DATA_URL);
@@ -60,7 +67,7 @@ public class WeatherDataFetcher {
 
                 String stationName = getXmlElementValue(element, STATION_NAME_TAG);
 
-                City city = cities.get(stationName);
+                City city = citiesByStationName.get(stationName);
                 if (city != null) {
                     String wmoCode = getXmlElementValue(element, WMO_CODE_TAG);
                     String airTemperature = getXmlElementValue(element, AIR_TEMPERATURE_TAG);
@@ -75,7 +82,10 @@ public class WeatherDataFetcher {
                     );
 
                     city.refreshWMOCode(wmoCode);
+
                     city.addWeatherData(data);
+                    weatherDataService.saveWeatherData(data);
+                    cityService.saveCity(city);
 
                     stationNames.remove(stationName);
                     if (stationNames.isEmpty()) {

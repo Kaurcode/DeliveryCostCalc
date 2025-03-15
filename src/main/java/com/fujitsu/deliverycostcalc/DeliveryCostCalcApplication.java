@@ -34,8 +34,6 @@ public class DeliveryCostCalcApplication {
 
         HashMap<String, City> stationsToCitiesMap = generateCities();
 
-        WeatherDataFetcher.readXML(stationsToCitiesMap);
-
         for (City city : stationsToCitiesMap.values()) {
             System.out.println(city.toString());
         }

@@ -4,8 +4,10 @@ import com.fujitsu.deliverycostcalc.entity.City;
 import com.fujitsu.deliverycostcalc.repository.CityRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class CityServiceImpl implements CityService {
@@ -33,5 +35,18 @@ public class CityServiceImpl implements CityService {
     @Override
     public Optional<City> getCityByStationName(String stationName) {
         return cityRepository.findByStationName(stationName);
+    }
+
+    @Override
+    public HashMap<String, City> getCitiesMappedByStationName() {
+        List<City> cities = fetchCityList();
+        return cities
+                .stream()
+                .collect(
+                        Collectors.toMap(
+                                City::getStationName,
+                                city -> city,
+                                (existing, replacement) -> existing, HashMap::new
+                        ));
     }
 }
