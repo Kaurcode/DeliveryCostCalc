@@ -7,7 +7,7 @@ import jakarta.persistence.Embeddable;
 public class Money implements Comparable<Money> {
     private int cents;
 
-    public Money() {}
+    protected Money() {}
 
     public Money(String money) throws InvalidMoneyException {
         if (money == null || money.isEmpty()) {

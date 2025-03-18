@@ -9,23 +9,23 @@ import java.util.List;
 public class WeatherRangeRule implements WeatherRule{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    long id;
+    private long id;
 
     @Column(name="DESCRIPTION")
-    String description;
+    private String description;
 
     @Column(name="WEATHER_FIELD_TYPE", nullable=false)
-    WeatherFieldType weatherFieldType;
+    private WeatherFieldType weatherFieldType;
 
     @Column(name="IS_START_INCLUSIVE", nullable=false)
-    boolean isStartInclusive;
+    private boolean isStartInclusive;
     @Column(name="START_VALUE", nullable=false)
-    float startValue;
+    private float startValue;
 
     @Column(name="IS_END_INCLUSIVE", nullable=false)
-    boolean isEndInclusive;
+    private boolean isEndInclusive;
     @Column(name="END_VALUE", nullable=false)
-    float endValue;
+    private float endValue;
 
     @ManyToMany(cascade = { CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH })
     @JoinTable(
@@ -37,12 +37,12 @@ public class WeatherRangeRule implements WeatherRule{
                     @JoinColumn(name = "VEHICLE_ID")
             }
     )
-    List<Vehicle> vehicles;
+    private List<Vehicle> vehicles;
 
     @Column(name="IS_ALLOWED", nullable=false)
-    boolean isAllowed;
+    private boolean isAllowed;
 
     @Embedded
     @AttributeOverrides({@AttributeOverride(name = "cents", column = @Column(name = "MONEY_IN_CENTS"))})
-    Money money;
+    private Money money;
 }
