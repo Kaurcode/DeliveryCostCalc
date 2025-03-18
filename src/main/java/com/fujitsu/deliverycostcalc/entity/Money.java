@@ -1,9 +1,13 @@
 package com.fujitsu.deliverycostcalc.entity;
 
 import com.fujitsu.deliverycostcalc.exception.InvalidMoneyException;
+import jakarta.persistence.Embeddable;
 
+@Embeddable
 public class Money implements Comparable<Money> {
     private int cents;
+
+    public Money() {}
 
     public Money(String money) throws InvalidMoneyException {
         if (money == null || money.isEmpty()) {
