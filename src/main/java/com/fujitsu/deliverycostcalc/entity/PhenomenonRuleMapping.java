@@ -14,7 +14,7 @@ public class PhenomenonRuleMapping {
     @Column(name = "PHENOMENON", nullable = false)
     private Phenomenon phenomenon;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH} )
     @JoinColumn(name = "WEATHER_PHENOMENON_RULE_ID", nullable = false)
     private WeatherPhenomenonRule rule;
 }
