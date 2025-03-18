@@ -9,7 +9,7 @@ import java.util.List;
 public class Vehicle {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    long id;
+    private long id;
 
     @Column(name="TYPE", unique=true, nullable=false)
     private String type;

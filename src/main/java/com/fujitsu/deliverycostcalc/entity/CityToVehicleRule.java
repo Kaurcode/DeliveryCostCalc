@@ -8,7 +8,10 @@ import java.util.List;
 public class CityToVehicleRule {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    long id;
+    private long id;
+
+    @Column(name = "DESCRIPTION")
+    private String description;
 
     @ManyToMany(cascade = { CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH })
     @JoinTable(
@@ -33,6 +36,9 @@ public class CityToVehicleRule {
             }
     )
     private List<Vehicle> vehicles;
+
+    @Column(name = "IS_ALLOWED", nullable = false)
+    private boolean isAllowed;
 
     @Embedded
     @AttributeOverrides({@AttributeOverride(name = "cents", column = @Column(name = "MONEY_IN_CENTS"))})
