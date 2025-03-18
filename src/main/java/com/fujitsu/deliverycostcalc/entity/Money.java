@@ -1,4 +1,4 @@
-package com.fujitsu.deliverycostcalc;
+package com.fujitsu.deliverycostcalc.entity;
 
 import com.fujitsu.deliverycostcalc.exception.InvalidMoneyException;
 

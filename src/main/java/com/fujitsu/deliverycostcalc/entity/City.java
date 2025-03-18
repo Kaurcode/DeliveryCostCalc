@@ -1,6 +1,5 @@
 package com.fujitsu.deliverycostcalc.entity;
 
-import com.fujitsu.deliverycostcalc.Money;
 import com.fujitsu.deliverycostcalc.VehicleType;
 import jakarta.persistence.*;
 
