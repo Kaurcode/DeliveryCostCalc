@@ -1,11 +1,9 @@
 package com.fujitsu.deliverycostcalc.entity;
 
-import com.fujitsu.deliverycostcalc.VehicleType;
 import jakarta.persistence.*;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 @Entity
 @Table(name="CITY")
@@ -22,10 +20,13 @@ public class City {
     @Column(name="WMO_CODE")
     private String wmocode;
 
-    @Transient
-    private Map<VehicleType, Money> vehicleToMoneyMap;
+    @ManyToMany(
+            mappedBy = "cities",
+            cascade = { CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH }
+    )
+    private List<CityToVehicleRule> vehicleRules;
 
-    @OneToMany(mappedBy="city", fetch=FetchType.LAZY, cascade=CascadeType.ALL)
+    @OneToMany(mappedBy="city", fetch=FetchType.LAZY, cascade = { CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH })
     private List<WeatherData> weatherDataList = new ArrayList<>();
 
     protected City() {}
