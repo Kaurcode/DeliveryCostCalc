@@ -2,6 +2,7 @@ package com.fujitsu.deliverycostcalc.entity;
 
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -40,7 +41,7 @@ public abstract class WeatherRangeRule implements FeePolicy {
                     @JoinColumn(name = "VEHICLE_ID")
             }
     )
-    private List<Vehicle> vehicles;
+    private List<Vehicle> vehicles = new ArrayList<>();
 
     @Column(name="IS_ALLOWED", nullable=false)
     private boolean isAllowed;

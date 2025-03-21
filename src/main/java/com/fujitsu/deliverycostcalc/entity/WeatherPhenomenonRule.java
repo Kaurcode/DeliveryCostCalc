@@ -20,7 +20,7 @@ public class WeatherPhenomenonRule implements FeePolicy {
             mappedBy = "rule",
             cascade = { CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH }
     )
-    private List<PhenomenonRuleMapping> phenomenons;
+    private List<PhenomenonRuleMapping> phenomenons = new ArrayList<>();
 
     @ManyToMany(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH })
     @JoinTable(
@@ -32,7 +32,7 @@ public class WeatherPhenomenonRule implements FeePolicy {
                     @JoinColumn(name = "VEHICLE_ID")
             }
     )
-    private List<Vehicle> vehicles;
+    private List<Vehicle> vehicles = new ArrayList<>();
 
     @Column(name="IS_ALLOWED", nullable=false)
     private boolean isAllowed;

@@ -24,7 +24,7 @@ public class City {
             mappedBy = "cities",
             cascade = { CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH }
     )
-    private List<CityToVehicleRule> vehicleRules;
+    private List<CityToVehicleRule> vehicleRules = new ArrayList<>();
 
     @OneToMany(mappedBy="city", fetch=FetchType.LAZY, cascade = { CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH })
     private List<WeatherData> weatherDataList = new ArrayList<>();

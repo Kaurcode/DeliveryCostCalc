@@ -2,6 +2,7 @@ package com.fujitsu.deliverycostcalc.entity;
 
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -23,7 +24,7 @@ public class CityToVehicleRule implements FeePolicy {
                     @JoinColumn(name = "CITY_ID")
             }
     )
-    private List<City> cities;
+    private List<City> cities = new ArrayList<>();
 
     @ManyToMany(cascade = { CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH })
     @JoinTable(
@@ -35,7 +36,7 @@ public class CityToVehicleRule implements FeePolicy {
                     @JoinColumn(name = "VEHICLE_ID")
             }
     )
-    private List<Vehicle> vehicles;
+    private List<Vehicle> vehicles = new ArrayList<>();
 
     @Column(name = "IS_ALLOWED", nullable = false)
     private boolean isAllowed;
