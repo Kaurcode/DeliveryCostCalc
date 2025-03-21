@@ -21,14 +21,14 @@ public abstract class WeatherRangeRule implements FeePolicy {
     @Column(name="IS_START_INCLUSIVE")
     private boolean isStartInclusive;
     @Column(name="START_VALUE")
-    private float startValue;
+    private double startValue;
 
     @Column(name="HAS_END_VALUE")
     private boolean hasEndValue;
     @Column(name="IS_END_INCLUSIVE", nullable=false)
     private boolean isEndInclusive;
     @Column(name="END_VALUE", nullable=false)
-    private float endValue;
+    private double endValue;
 
     @ManyToMany(cascade = { CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH })
     @JoinTable(
@@ -48,6 +48,32 @@ public abstract class WeatherRangeRule implements FeePolicy {
     @Embedded
     @AttributeOverrides({@AttributeOverride(name = "cents", column = @Column(name = "MONEY_IN_CENTS"))})
     private Money money;
+
+    protected WeatherRangeRule() {}
+
+    public WeatherRangeRule(
+            String description,
+            boolean hasStartValue,
+            boolean isStartInclusive,
+            double startValue,
+            boolean hasEndValue,
+            boolean isEndInclusive,
+            double endValue,
+            List<Vehicle> vehicles,
+            boolean isAllowed,
+            Money money
+    ) {
+        this.description = description;
+        this.hasStartValue = hasStartValue;
+        this.isStartInclusive = isStartInclusive;
+        this.startValue = startValue;
+        this.hasEndValue = hasEndValue;
+        this.isEndInclusive = isEndInclusive;
+        this.endValue = endValue;
+        this.vehicles = vehicles;
+        this.isAllowed = isAllowed;
+        this.money = money;
+    }
 
     public abstract double getWeatherValue(WeatherData data);
 
