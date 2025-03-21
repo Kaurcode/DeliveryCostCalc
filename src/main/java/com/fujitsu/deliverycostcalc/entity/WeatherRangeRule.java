@@ -82,7 +82,8 @@ public abstract class WeatherRangeRule implements FeePolicy {
     public boolean appliesTo(PolicyEvaluationInput data) {
         double value = getWeatherValue(data.getWeatherData());
 
-        return isStartConditionMet(value) &&
+        return vehicles.contains(data.getVehicle()) &&
+                isStartConditionMet(value) &&
                 isEndConditionMet(value);
     }
 
