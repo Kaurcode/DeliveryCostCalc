@@ -3,6 +3,7 @@ package com.fujitsu.deliverycostcalc.service;
 import com.fujitsu.deliverycostcalc.entity.City;
 import com.fujitsu.deliverycostcalc.entity.WeatherData;
 import com.fujitsu.deliverycostcalc.exception.HttpResponseException;
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -46,6 +47,7 @@ public class WeatherDataFetcherService {
         return (0 < nodeList.getLength()) ? nodeList.item(0).getTextContent() : "N/A";
     }
 
+    @Transactional
     public void fetchWeatherData() throws ParserConfigurationException, IOException, SAXException {
         HashMap<String, City> citiesByStationName = cityService.getCitiesMappedByStationName();
         Set<String> stationNames = new HashSet<>(citiesByStationName.keySet());
