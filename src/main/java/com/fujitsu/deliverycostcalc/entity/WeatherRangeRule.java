@@ -17,11 +17,15 @@ public abstract class WeatherRangeRule implements FeePolicy {
     @Column(name="WEATHER_FIELD_TYPE", nullable=false)
     private WeatherFieldType weatherFieldType;
 
-    @Column(name="IS_START_INCLUSIVE", nullable=false)
+    @Column(name="HAS_START_VALUE", nullable=false)
+    private boolean hasStartValue;
+    @Column(name="IS_START_INCLUSIVE")
     private boolean isStartInclusive;
-    @Column(name="START_VALUE", nullable=false)
+    @Column(name="START_VALUE")
     private float startValue;
 
+    @Column(name="HAS_END_VALUE")
+    private boolean hasEndValue;
     @Column(name="IS_END_INCLUSIVE", nullable=false)
     private boolean isEndInclusive;
     @Column(name="END_VALUE", nullable=false)
@@ -46,49 +50,26 @@ public abstract class WeatherRangeRule implements FeePolicy {
     @AttributeOverrides({@AttributeOverride(name = "cents", column = @Column(name = "MONEY_IN_CENTS"))})
     private Money money;
 
-    public boolean isStartInclusive() {
-        return isStartInclusive;
-    }
-
-    public float getStartValue() {
-        return startValue;
-    }
-
-    public boolean isEndInclusive() {
-        return isEndInclusive;
-    }
-
-    public float getEndValue() {
-        return endValue;
-    }
-
-    public List<Vehicle> getVehicles() {
-        return vehicles;
-    }
-
     public abstract double getWeatherValue(WeatherData data);
 
     @Override
     public boolean appliesTo(PolicyEvaluationInput data) {
         double value = getWeatherValue(data.getWeatherData());
 
-        if (value < getStartValue()) {
-            return false;
-        }
+        return isStartConditionMet(value) &&
+                isEndConditionMet(value);
+    }
 
-        if (getEndValue() < value) {
-            return false;
-        }
+    private boolean isStartConditionMet(double value) {
+        if (!hasStartValue) return true;
+        if (startValue < value) return true;
+        return value == startValue && isStartInclusive;
+    }
 
-        if (value == getStartValue() && !isStartInclusive()) {
-            return false;
-        }
-
-        if (value == getEndValue() && !isEndInclusive()) {
-            return false;
-        }
-
-        return true;
+    private boolean isEndConditionMet(double value) {
+        if (!hasEndValue) return true;
+        if (value < endValue) return true;
+        return value == endValue && isEndInclusive;
     }
 
     @Override
