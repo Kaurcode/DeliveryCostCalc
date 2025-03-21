@@ -18,6 +18,13 @@ public class PhenomenonRuleMapping {
     @JoinColumn(name = "WEATHER_PHENOMENON_RULE_ID", nullable = false)
     private WeatherPhenomenonRule rule;
 
+    protected PhenomenonRuleMapping() {}
+
+    public PhenomenonRuleMapping(Phenomenon phenomenon, WeatherPhenomenonRule rule) {
+        this.phenomenon = phenomenon;
+        this.rule = rule;
+    }
+
     public Phenomenon getPhenomenon() {
         return phenomenon;
     }

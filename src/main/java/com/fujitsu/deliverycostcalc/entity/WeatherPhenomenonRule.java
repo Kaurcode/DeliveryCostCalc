@@ -41,6 +41,21 @@ public class WeatherPhenomenonRule implements FeePolicy {
     @AttributeOverrides({@AttributeOverride(name = "cents", column = @Column(name = "MONEY_IN_CENTS"))})
     private Money money;
 
+    protected WeatherPhenomenonRule() {}
+
+    public WeatherPhenomenonRule(String description, List<Phenomenon> phenomenons, List<Vehicle> vehicles, boolean isAllowed, Money money) {
+        this.description = description;
+        this.phenomenons = new ArrayList<>();
+
+        for (Phenomenon phenomenon : phenomenons) {
+            this.phenomenons.add(new PhenomenonRuleMapping(phenomenon, this));
+        }
+
+        this.vehicles = vehicles;
+        this.isAllowed = isAllowed;
+        this.money = money;
+    }
+
     private List<Phenomenon> getPhenomenons() {
         List<Phenomenon> phenomenons = new ArrayList<>();
 
