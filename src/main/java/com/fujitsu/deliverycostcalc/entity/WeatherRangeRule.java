@@ -6,7 +6,7 @@ import java.util.List;
 
 @Entity
 @Table(name="WEATHER_RANGE_RULE")
-public class WeatherRangeRule implements WeatherRule{
+public abstract class WeatherRangeRule implements FeePolicy {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
@@ -45,4 +45,59 @@ public class WeatherRangeRule implements WeatherRule{
     @Embedded
     @AttributeOverrides({@AttributeOverride(name = "cents", column = @Column(name = "MONEY_IN_CENTS"))})
     private Money money;
+
+    public boolean isStartInclusive() {
+        return isStartInclusive;
+    }
+
+    public float getStartValue() {
+        return startValue;
+    }
+
+    public boolean isEndInclusive() {
+        return isEndInclusive;
+    }
+
+    public float getEndValue() {
+        return endValue;
+    }
+
+    public List<Vehicle> getVehicles() {
+        return vehicles;
+    }
+
+    public abstract double getWeatherValue(WeatherData data);
+
+    @Override
+    public boolean appliesTo(PolicyEvaluationInput data) {
+        double value = getWeatherValue(data.getWeatherData());
+
+        if (value < getStartValue()) {
+            return false;
+        }
+
+        if (getEndValue() < value) {
+            return false;
+        }
+
+        if (value == getStartValue() && !isStartInclusive()) {
+            return false;
+        }
+
+        if (value == getEndValue() && !isEndInclusive()) {
+            return false;
+        }
+
+        return true;
+    }
+
+    @Override
+    public boolean isAllowed() {
+        return isAllowed;
+    }
+
+    @Override
+    public Money getMoney() {
+        return money;
+    }
 }
