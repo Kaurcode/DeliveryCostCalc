@@ -6,6 +6,8 @@ import java.util.List;
 
 @Entity
 @Table(name="WEATHER_RANGE_RULE")
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name = "RULE_TYPE", discriminatorType = DiscriminatorType.STRING)
 public abstract class WeatherRangeRule implements FeePolicy {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -13,9 +15,6 @@ public abstract class WeatherRangeRule implements FeePolicy {
 
     @Column(name="DESCRIPTION")
     private String description;
-
-    @Column(name="WEATHER_FIELD_TYPE", nullable=false)
-    private WeatherFieldType weatherFieldType;
 
     @Column(name="HAS_START_VALUE", nullable=false)
     private boolean hasStartValue;
