@@ -44,6 +44,18 @@ public class CityToVehicleRule implements FeePolicy {
     @AttributeOverrides({@AttributeOverride(name = "cents", column = @Column(name = "MONEY_IN_CENTS"))})
     private Money money;
 
+    protected CityToVehicleRule() {}
+
+    public CityToVehicleRule(
+            String description, List<City> cities, List<Vehicle> vehicles, boolean isAllowed, Money money
+    ) {
+        this.description = description;
+        this.cities = cities;
+        this.vehicles = vehicles;
+        this.isAllowed = isAllowed;
+        this.money = money;
+    }
+
     @Override
     public boolean appliesTo(PolicyEvaluationInput data) {
         return cities.contains(data.getCity()) &&
