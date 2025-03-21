@@ -56,4 +56,9 @@ public class Money implements Comparable<Money> {
     public void add(Money money) {
         this.cents += money.getCents();
     }
+
+    @Override
+    public String toString() {
+        return String.format("%d,%d", cents / 100, cents % 100);
+    }
 }
