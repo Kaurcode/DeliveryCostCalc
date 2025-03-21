@@ -11,6 +11,7 @@ public interface CityService extends CrudService<City, CityRepository> {
     void deleteCityById(Long weatherDataId);
 
     Optional<City> getCityByStationName(String stationName);
+    Optional<City> findByName(String name);
     HashMap<String, City> getCitiesMappedByStationName();
     HashSet<String> getStationNamesAsSet();
 }

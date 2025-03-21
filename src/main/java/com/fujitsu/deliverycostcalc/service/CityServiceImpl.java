@@ -24,6 +24,11 @@ public class CityServiceImpl extends CrudServiceImpl<City, CityRepository> imple
     }
 
     @Override
+    public Optional<City> findByName(String name) {
+        return repository.findByName(name);
+    }
+
+    @Override
     public HashMap<String, City> getCitiesMappedByStationName() {
         List<City> cities = findAll();
         return cities
