@@ -1,12 +1,14 @@
 package com.fujitsu.deliverycostcalc.entity;
 
+import com.fujitsu.deliverycostcalc.Phenomenon;
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 @Table(name="WEATHER_PHENOMENON_RULE")
-public class WeatherPhenomenonRule implements WeatherRule {
+public class WeatherPhenomenonRule implements FeePolicy {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
@@ -38,4 +40,30 @@ public class WeatherPhenomenonRule implements WeatherRule {
     @Embedded
     @AttributeOverrides({@AttributeOverride(name = "cents", column = @Column(name = "MONEY_IN_CENTS"))})
     private Money money;
+
+    private List<Phenomenon> getPhenomenons() {
+        List<Phenomenon> phenomenons = new ArrayList<>();
+
+        for (PhenomenonRuleMapping phenomenon : this.phenomenons) {
+            phenomenons.add(phenomenon.getPhenomenon());
+        }
+
+        return phenomenons;
+    }
+
+    @Override
+    public boolean appliesTo(PolicyEvaluationInput data) {
+        return vehicles.contains(data.getVehicle()) &&
+                getPhenomenons().contains(data.getWeatherData().getPhenomenon());
+    }
+
+    @Override
+    public boolean isAllowed() {
+        return isAllowed;
+    }
+
+    @Override
+    public Money getMoney() {
+        return money;
+    }
 }

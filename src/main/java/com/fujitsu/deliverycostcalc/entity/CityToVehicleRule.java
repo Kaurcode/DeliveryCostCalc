@@ -5,7 +5,7 @@ import jakarta.persistence.*;
 import java.util.List;
 
 @Entity
-public class CityToVehicleRule {
+public class CityToVehicleRule implements FeePolicy {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
@@ -43,4 +43,22 @@ public class CityToVehicleRule {
     @Embedded
     @AttributeOverrides({@AttributeOverride(name = "cents", column = @Column(name = "MONEY_IN_CENTS"))})
     private Money money;
+
+    @Override
+    public boolean appliesTo(PolicyEvaluationInput data) {
+        return cities.contains(data.getCity()) &&
+                vehicles.contains(data.getVehicle());
+    }
+
+    @Override
+    public boolean isAllowed() {
+        return isAllowed;
+    }
+
+    @Override
+    public Money getMoney() {
+        return money;
+    }
+
+
 }
