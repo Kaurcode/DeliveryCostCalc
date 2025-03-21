@@ -45,6 +45,18 @@ public class WeatherData {
         this.city = city;
     }
 
+    public Phenomenon getPhenomenon() {
+        return phenomenon;
+    }
+
+    public double getAirTemperature() {
+        return airTemperature;
+    }
+
+    public double getWindSpeed() {
+        return windSpeed;
+    }
+
     @Override
     public String toString() {
         return "\tWeatherData {" +
