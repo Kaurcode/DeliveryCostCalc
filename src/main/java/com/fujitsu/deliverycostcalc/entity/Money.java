@@ -52,4 +52,8 @@ public class Money implements Comparable<Money> {
     public int compareTo(Money otherMoney) {
         return Integer.compare(getCents(), otherMoney.getCents());
     }
+
+    public void add(Money money) {
+        this.cents += money.getCents();
+    }
 }
