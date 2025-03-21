@@ -1,7 +1,6 @@
 package com.fujitsu.deliverycostcalc.entity;
 
 
-import com.fujitsu.deliverycostcalc.Phenomenon;
 import jakarta.persistence.*;
 
 import java.time.Instant;

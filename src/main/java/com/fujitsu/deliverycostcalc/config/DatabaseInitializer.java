@@ -1,6 +1,6 @@
 package com.fujitsu.deliverycostcalc.config;
 
-import com.fujitsu.deliverycostcalc.Phenomenon;
+import com.fujitsu.deliverycostcalc.entity.Phenomenon;
 import com.fujitsu.deliverycostcalc.entity.*;
 import com.fujitsu.deliverycostcalc.exception.InvalidMoneyException;
 import com.fujitsu.deliverycostcalc.service.*;
