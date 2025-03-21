@@ -2,6 +2,7 @@ package com.fujitsu.deliverycostcalc.service;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public abstract class CrudServiceImpl<T, R extends JpaRepository<T, Long>> implements CrudService<T, R> {
@@ -14,6 +15,17 @@ public abstract class CrudServiceImpl<T, R extends JpaRepository<T, Long>> imple
     @Override
     public T save(T entity) {
         return repository.save(entity);
+    }
+
+    @Override
+    public List<T> saveAll(List<T> entities) {
+        ArrayList<T> savedEntities = new ArrayList<T>();
+
+        for (T entity : entities) {
+            savedEntities.add(repository.save(entity));
+        }
+
+        return savedEntities;
     }
 
     @Override
