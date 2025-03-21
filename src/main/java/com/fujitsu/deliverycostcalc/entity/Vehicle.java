@@ -31,6 +31,15 @@ public class Vehicle {
             mappedBy = "vehicles",
             cascade = { CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH }
     )
-    private List<WeatherPhenomenonRule> weatherPhenomenonRules;
     private List<WeatherPhenomenonRule> weatherPhenomenonRules = new ArrayList<>();
+
+    protected Vehicle() {}
+
+    public Vehicle(String type) {
+        this.type = type;
+    }
+
+    public String getType() {
+        return type;
+    }
 }
