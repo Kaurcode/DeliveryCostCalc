@@ -40,7 +40,7 @@ public class DatabaseInitializer implements CommandLineRunner {
 
             if (!stationNames.contains(stationName)) {
                 City city = new City(cityName, stationName);
-                cityService.saveCity(city);
+                cityService.save(city);
             }
         }
     }

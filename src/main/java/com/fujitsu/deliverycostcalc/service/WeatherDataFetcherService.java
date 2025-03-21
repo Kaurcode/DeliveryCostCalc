@@ -81,10 +81,10 @@ public class WeatherDataFetcherService {
                             city
                     );
 
-                    weatherDataService.saveWeatherData(data);
+                    weatherDataService.save(data);
 
                     city.refreshWMOCode(wmoCode);
-                    cityService.saveCity(city);
+                    cityService.save(city);
 
                     stationNames.remove(stationName);
                     if (stationNames.isEmpty()) {

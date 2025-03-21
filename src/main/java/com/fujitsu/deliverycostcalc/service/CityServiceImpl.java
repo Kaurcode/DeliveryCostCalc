@@ -8,36 +8,24 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
-public class CityServiceImpl implements CityService {
-    private final CityRepository cityRepository;
-
+public class CityServiceImpl extends CrudServiceImpl<City, CityRepository> implements CityService {
     public CityServiceImpl(CityRepository cityRepository) {
-        this.cityRepository = cityRepository;
-    }
-
-    @Override
-    public City saveCity(City city) {
-        return cityRepository.save(city);
-    }
-
-    @Override
-    public List<City> fetchCityList() {
-        return (List<City>) cityRepository.findAll();
+        super(cityRepository);
     }
 
     @Override
     public void deleteCityById(Long weatherDataId) {
-        cityRepository.deleteById(weatherDataId);
+        repository.deleteById(weatherDataId);
     }
 
     @Override
     public Optional<City> getCityByStationName(String stationName) {
-        return cityRepository.findByStationName(stationName);
+        return repository.findByStationName(stationName);
     }
 
     @Override
     public HashMap<String, City> getCitiesMappedByStationName() {
-        List<City> cities = fetchCityList();
+        List<City> cities = findAll();
         return cities
                 .stream()
                 .collect(
@@ -50,7 +38,7 @@ public class CityServiceImpl implements CityService {
 
     @Override
     public HashSet<String> getStationNamesAsSet() {
-        List<City> cities = fetchCityList();
+        List<City> cities = findAll();
         return cities
                 .stream()
                 .map(City::getStationName)
