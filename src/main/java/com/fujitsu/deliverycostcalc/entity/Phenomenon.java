@@ -10,7 +10,7 @@ public enum Phenomenon {
 
     private static final String[] STORMY_KEYWORDS = new String[]{"glaze", "hail", "thunder"};
     private static final String[] SNOWY_KEYWORDS = new String[]{"snow", "sleet"};
-    private static final String[] RAINY_KEYWORDS = new String[]{"rain"};
+    private static final String[] RAINY_KEYWORDS = new String[]{"rain", "shower"};
 
 
     private static final Map<Phenomenon, String[]> PhenomenonToKeywordsMap = Map.of(
