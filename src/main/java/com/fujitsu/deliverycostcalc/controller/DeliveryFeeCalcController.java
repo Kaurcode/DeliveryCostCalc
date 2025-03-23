@@ -1,6 +1,7 @@
 package com.fujitsu.deliverycostcalc.controller;
 
 import com.fujitsu.deliverycostcalc.entity.*;
+import com.fujitsu.deliverycostcalc.exception.EmptyXmlTagValueException;
 import com.fujitsu.deliverycostcalc.exception.InvalidMoneyException;
 import com.fujitsu.deliverycostcalc.service.CityService;
 import com.fujitsu.deliverycostcalc.service.FeePolicyService;
@@ -32,14 +33,20 @@ public class DeliveryFeeCalcController {
     @GetMapping("/deliveryFee")
     public String calculateDeliveryFee(
             @RequestParam(value = "city") String cityName, @RequestParam(value = "vehicle") String vehicleType
-    ) throws InvalidMoneyException {
+    ) throws InvalidMoneyException, EmptyXmlTagValueException {
+
         City city = cityService.findByName(cityName).orElseThrow();
         Vehicle vehicle = vehicleService.findByType(vehicleType).orElseThrow();
         WeatherData weatherData = weatherDataService.getLatestWeatherDataByCity(city).orElseThrow();
 
-        PolicyEvaluationInput data = new PolicyEvaluationInput(city, vehicle, weatherData);
+        if (weatherData.isErroneous()) {
+            throw new EmptyXmlTagValueException("Data for current time is corrupted:\n" +
+                    weatherData.getErrorMessage());
+        }
 
+        PolicyEvaluationInput data = new PolicyEvaluationInput(city, vehicle, weatherData);
         Money fee = feePolicyService.calculateFee(data).orElseThrow();
+
         return fee.toString();
     }
 }

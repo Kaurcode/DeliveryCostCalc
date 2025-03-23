@@ -67,6 +67,14 @@ public class WeatherData {
         return windSpeed;
     }
 
+    public boolean isErroneous() {
+        return isErroneous;
+    }
+
+    public String getErrorMessage() {
+        return errorMessage;
+    }
+
     @Override
     public String toString() {
         return "\tWeatherData {" +
