@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Optional;
+
 @RestController
 public class DeliveryFeeCalcController {
     private final CityService cityService;
@@ -45,8 +47,12 @@ public class DeliveryFeeCalcController {
         }
 
         PolicyEvaluationInput data = new PolicyEvaluationInput(city, vehicle, weatherData);
-        Money fee = feePolicyService.calculateFee(data).orElseThrow();
+        Optional<Money> fee = feePolicyService.calculateFee(data);
 
-        return fee.toString();
+        if (fee.isEmpty()) {
+            return "Usage of selected vehicle type is forbidden";
+        }
+
+        return fee.get().toString();
     }
 }

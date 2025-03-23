@@ -76,6 +76,23 @@ public class DeliveryFeeCalcControllerTest {
 
         mockMvc.perform(get("/deliveryFee?city=Tallinn&vehicle=Car"))
                 .andExpect(status().isBadRequest())
-                .andExpect(content().string(org.hamcrest.Matchers.containsString("Weather data error")));
+                .andExpect(content().string(org.hamcrest.Matchers.containsString("Missing air temperature")));
+    }
+
+    @Test
+    public void shouldReturnForbiddenMessage_whenFeeCalculationReturnsEmpty() throws Exception {
+        City mockCity = new City("Tallinn", "Tallinn-Harku");
+        Vehicle mockVehicle = new Vehicle("Car");
+        WeatherData mockWeatherData = Mockito.mock(WeatherData.class);
+
+        Mockito.when(cityService.findByName("Tallinn")).thenReturn(Optional.of(mockCity));
+        Mockito.when(vehicleService.findByType("Car")).thenReturn(Optional.of(mockVehicle));
+        Mockito.when(weatherDataService.getLatestWeatherDataByCity(mockCity)).thenReturn(Optional.of(mockWeatherData));
+        Mockito.when(mockWeatherData.isErroneous()).thenReturn(false);
+        Mockito.when(feePolicyService.calculateFee(any())).thenReturn(Optional.empty());
+
+        mockMvc.perform(get("/deliveryFee?city=Tallinn&vehicle=Car"))
+                .andExpect(status().isOk())
+                .andExpect(content().string("Usage of selected vehicle type is forbidden"));
     }
 }
