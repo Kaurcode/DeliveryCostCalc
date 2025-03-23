@@ -67,6 +67,10 @@ public class WeatherDataFetcherService {
         }
     }
 
+    /**
+     * Fetches weather data from the specified XML file URL (constant at the start of the class)
+     * @throws MissingXmlTagException An XML tag field was missing, probably corrupted data
+     */
     @Transactional
     public void fetchWeatherData() throws ParserConfigurationException, IOException, SAXException,
             MissingXmlTagException {
