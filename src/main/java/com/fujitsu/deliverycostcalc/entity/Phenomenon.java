@@ -19,6 +19,11 @@ public enum Phenomenon {
         put(STORMY, STORMY_KEYWORDS);
     }};
 
+    /**
+     * Parses the String and matches the correct weather Phenomenon enum with the String contents
+     * @param phenomenon String which contains data about the weather phenomenon
+     * @return Weather Phenomenon Enum
+     */
     public static Phenomenon parsePhenomenon(String phenomenon) {
         if (phenomenon == null || phenomenon.isEmpty()) {
             return OTHER;

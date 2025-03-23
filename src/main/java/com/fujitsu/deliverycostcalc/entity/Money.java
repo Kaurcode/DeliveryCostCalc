@@ -4,7 +4,7 @@ import com.fujitsu.deliverycostcalc.exception.InvalidMoneyException;
 import jakarta.persistence.Embeddable;
 
 @Embeddable
-public class Money implements Comparable<Money> {
+public class Money {
     private int cents;
 
     protected Money() {}
@@ -49,10 +49,10 @@ public class Money implements Comparable<Money> {
         return cents;
     }
 
-    public int compareTo(Money otherMoney) {
-        return Integer.compare(getCents(), otherMoney.getCents());
-    }
-
+    /**
+     * Adds two money instances together (adding up the amount of cents)
+     * @param money Other money instance
+     */
     public void add(Money money) {
         this.cents += money.getCents();
     }

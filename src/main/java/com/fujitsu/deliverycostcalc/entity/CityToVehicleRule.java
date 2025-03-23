@@ -59,8 +59,8 @@ public class CityToVehicleRule implements FeePolicy {
 
     @Override
     public boolean appliesTo(PolicyEvaluationInput data) {
-        return cities.contains(data.getCity()) &&
-                vehicles.contains(data.getVehicle());
+        return cities.contains(data.city()) &&
+                vehicles.contains(data.vehicle());
     }
 
     @Override

@@ -23,6 +23,11 @@ public class WeatherDataServiceImpl extends CrudServiceImpl<WeatherData, Weather
         repository.deleteById(weatherDataId);
     }
 
+    /**
+     * Gets latest weather data from the queried city
+     * @param city The city for which latest weather data is queried
+     * @return Optional of the latest weather data or an empty optional if no weather data has been saved
+     */
     @Override
     public Optional<WeatherData> getLatestWeatherDataByCity(City city) {
         Pageable limitOne = PageRequest.of(0, 1);

@@ -76,13 +76,18 @@ public abstract class WeatherRangeRule implements FeePolicy {
         this.money = money;
     }
 
+    /**
+     * Gets the weather value (from the WeatherData instance) of which the policy is checked for
+     * @param data WeatherData instance from where the correct weather value is extracted from
+     * @return Weather value
+     */
     public abstract double getWeatherValue(WeatherData data);
 
     @Override
     public boolean appliesTo(PolicyEvaluationInput data) {
-        double value = getWeatherValue(data.getWeatherData());
+        double value = getWeatherValue(data.weatherData());
 
-        return vehicles.contains(data.getVehicle()) &&
+        return vehicles.contains(data.vehicle()) &&
                 isStartConditionMet(value) &&
                 isEndConditionMet(value);
     }

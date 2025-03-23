@@ -40,6 +40,11 @@ public class City {
         return stationName;
     }
 
+    /**
+     * Refreshes the WMO (World Meteorological Organization) code of the weather station in the city. Also used for
+     * setting the WMO code of the weather station the first time the XML file is read
+     * @param wmocode The WMO code of the weather station
+     */
     public void refreshWMOCode(String wmocode) {
         if (this.wmocode != null && this.wmocode.equals(wmocode)) {
             return;

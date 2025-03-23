@@ -2,6 +2,9 @@ package com.fujitsu.deliverycostcalc.entity;
 
 import jakarta.persistence.*;
 
+/**
+ * Helper class to map a PhenomenonRuleMapping entity to a weather Phenomenon Enum
+ */
 @Entity
 @Table(name = "PHENOMENON_TO_RULE_MAPPING")
 public class PhenomenonRuleMapping {

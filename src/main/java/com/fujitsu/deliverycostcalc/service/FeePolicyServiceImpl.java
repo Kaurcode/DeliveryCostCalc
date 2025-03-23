@@ -25,6 +25,10 @@ public class FeePolicyServiceImpl implements FeePolicyService {
         this.weatherRangeRuleService = weatherRangeRuleService;
     }
 
+    /**
+     * Returns all policies as an arraylist from the database
+     * @return A list of all policies
+     */
     @Override
     public List<FeePolicy> getAllPolicies() {
         List<FeePolicy> policies = new ArrayList<>();
@@ -36,6 +40,12 @@ public class FeePolicyServiceImpl implements FeePolicyService {
         return policies;
     }
 
+    /**
+     * Checks all policies in the database and then calculates the fee based on the data
+     * @param data Data based on which the fee is calculated on
+     * @return The fee that was calculated based on data, an empty optional if the result isn't allowed
+     * @throws InvalidMoneyException Shouldn't actually be thrown, check Money class constructor if it is
+     */
     @Override
     public Optional<Money> calculateFee(PolicyEvaluationInput data) throws InvalidMoneyException {
         Money money = new Money("0");
@@ -51,6 +61,10 @@ public class FeePolicyServiceImpl implements FeePolicyService {
         return Optional.of(money);
     }
 
+    /**
+     * Returns the number of total policies in the database
+     * @return The number of total policies in the database
+     */
     @Override
     public long count() {
         return cityToVehicleRuleService.count() +
@@ -58,6 +72,10 @@ public class FeePolicyServiceImpl implements FeePolicyService {
                 weatherRangeRuleService.count();
     }
 
+    /**
+     * Returns if there are no policies in the database
+     * @return true if there are no policies in the database, otherwise false
+     */
     @Override
     public boolean isEmpty() {
         return count() == 0;

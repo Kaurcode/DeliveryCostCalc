@@ -19,6 +19,10 @@ public class WeatherDataScheduler {
         this.weatherDataFetcherService = weatherDataFetcherService;
     }
 
+    /**
+     * A scheduled task to fetch weather data from the internet
+     * @throws MissingXmlTagException If an XML tag was not found when an XML tag was expected
+     */
     @Scheduled(cron = WEATHER_DATA_SCHEDULER_CRON_EXPRESSION)
     public void fetchWeatherData() throws ParserConfigurationException, IOException, SAXException,
             MissingXmlTagException {

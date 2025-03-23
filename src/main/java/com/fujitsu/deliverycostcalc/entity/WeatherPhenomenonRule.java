@@ -67,8 +67,8 @@ public class WeatherPhenomenonRule implements FeePolicy {
 
     @Override
     public boolean appliesTo(PolicyEvaluationInput data) {
-        return vehicles.contains(data.getVehicle()) &&
-                getPhenomenons().contains(data.getWeatherData().getPhenomenon());
+        return vehicles.contains(data.vehicle()) &&
+                getPhenomenons().contains(data.weatherData().getPhenomenon());
     }
 
     @Override

@@ -32,6 +32,14 @@ public class DeliveryFeeCalcController {
         this.weatherDataService = weatherDataService;
     }
 
+    /**
+     * Responds to GET requests to /deliveryFee mapping with the corresponding delivery fee
+     * @param cityName The name of the city where delivery fee is calculated
+     * @param vehicleType The name of the vehicle which is used for delivery
+     * @return The delivery fee
+     * @throws InvalidMoneyException Shouldn't actually be thrown, if it is then there is a mistake in code
+     * @throws EmptyXmlTagValueException The stored values were erroneous, can't be used for calculation
+     */
     @GetMapping("/deliveryFee")
     public String calculateDeliveryFee(
             @RequestParam(value = "city") String cityName, @RequestParam(value = "vehicle") String vehicleType
