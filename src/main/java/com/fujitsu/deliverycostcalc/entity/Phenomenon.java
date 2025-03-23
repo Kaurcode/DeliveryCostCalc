@@ -1,5 +1,6 @@
 package com.fujitsu.deliverycostcalc.entity;
 
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 public enum Phenomenon {
@@ -12,12 +13,11 @@ public enum Phenomenon {
     private static final String[] SNOWY_KEYWORDS = new String[]{"snow", "sleet"};
     private static final String[] RAINY_KEYWORDS = new String[]{"rain", "shower"};
 
-
-    private static final Map<Phenomenon, String[]> PhenomenonToKeywordsMap = Map.of(
-            STORMY, STORMY_KEYWORDS,
-            SNOWY, SNOWY_KEYWORDS,
-            RAINY, RAINY_KEYWORDS
-    );
+    private static final Map<Phenomenon, String[]> PhenomenonToKeywordsMap = new LinkedHashMap<>() {{
+        put(SNOWY, SNOWY_KEYWORDS);
+        put(RAINY, RAINY_KEYWORDS);
+        put(STORMY, STORMY_KEYWORDS);
+    }};
 
     public static Phenomenon parsePhenomenon(String phenomenon) {
         if (phenomenon == null || phenomenon.isEmpty()) {
