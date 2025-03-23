@@ -3,7 +3,6 @@ package com.fujitsu.deliverycostcalc.service;
 import com.fujitsu.deliverycostcalc.entity.City;
 import com.fujitsu.deliverycostcalc.entity.WeatherData;
 import com.fujitsu.deliverycostcalc.exception.EmptyXmlTagValueException;
-import com.fujitsu.deliverycostcalc.exception.HttpResponseException;
 import com.fujitsu.deliverycostcalc.exception.MissingXmlTagException;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
@@ -17,9 +16,6 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.*;
-import java.net.HttpURLConnection;
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
@@ -133,44 +129,5 @@ public class WeatherDataFetcherService {
                 }
             }
         }
-    }
-
-    private static String readResponseBody(HttpURLConnection connection) throws IOException {
-        StringBuilder responseBody = new StringBuilder();
-
-        try (InputStream inputStream = connection.getInputStream();
-             BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream))) {
-
-            String line;
-            while ((line = bufferedReader.readLine()) != null) {
-                responseBody.append(line).append("\n");
-            }
-        }
-
-        return responseBody.toString();
-    }
-
-    private static String fetchData() throws URISyntaxException, IOException, HttpResponseException {
-        URI uri = new URI(WEATHER_DATA_URL);
-        HttpURLConnection connection = (HttpURLConnection) uri.toURL().openConnection();
-        connection.setRequestMethod("GET");
-
-        connection.setConnectTimeout(5000);
-        connection.setReadTimeout(5000);
-
-        String xmlResponse;
-
-        try {
-            int responseCode = connection.getResponseCode();
-            if (responseCode == HttpURLConnection.HTTP_OK) {
-                xmlResponse = readResponseBody(connection);
-            } else {
-                throw new HttpResponseException("Response code: " + responseCode);
-            }
-        } finally {
-            connection.disconnect();
-        }
-
-        return xmlResponse;
     }
 }

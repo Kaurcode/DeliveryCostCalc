@@ -86,14 +86,4 @@ public class WeatherData {
     public Instant getTimestamp() {
         return timestamp;
     }
-
-    @Override
-    public String toString() {
-        return "\tWeatherData {" +
-                "\n\t\ttimestamp: " + timestamp +
-                "\n\t\tairTemperature: " + airTemperature +
-                "\n\t\twindSpeed: " + windSpeed +
-                "\n\t\tphenomenon: " + phenomenon +
-                "\n\t}\n";
-    }
 }
