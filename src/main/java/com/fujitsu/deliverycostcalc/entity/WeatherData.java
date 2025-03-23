@@ -75,6 +75,14 @@ public class WeatherData {
         return errorMessage;
     }
 
+    public void setWindSpeed(double windSpeed) {
+        this.windSpeed = windSpeed;
+    }
+
+    public void setAirTemperature(double airTemperature) {
+        this.airTemperature = airTemperature;
+    }
+
     @Override
     public String toString() {
         return "\tWeatherData {" +
