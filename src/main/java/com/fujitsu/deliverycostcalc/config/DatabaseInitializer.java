@@ -12,6 +12,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+/**
+ * Ensures default database configuration according to the project rules
+ */
 @Component
 public class DatabaseInitializer implements CommandLineRunner {
     private static final Map<String, String> DEFAULT_CITIES_TO_STATION_NAMES = Map.of(
