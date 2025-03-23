@@ -30,14 +30,25 @@ public class WeatherData {
     @Enumerated(EnumType.STRING)
     private Phenomenon phenomenon;
 
+    @Column(name="IS_ERRONEOUS", nullable=false)
+    private boolean isErroneous;
+
+    @Column(name="ERROR_MESSAGE")
+    private String errorMessage;
+
     protected WeatherData() {}
 
-    public WeatherData(String timestamp, String airTemperature, String windSpeed, String phenomenon, City city) {
+    public WeatherData(
+            String timestamp, String airTemperature, String windSpeed, String phenomenon, City city,
+            boolean isErroneous, String errorMessage
+    ) {
         this.timestamp = Instant.ofEpochSecond(Long.parseLong(timestamp));
         this.airTemperature = Double.parseDouble(airTemperature);
         this.windSpeed = Double.parseDouble(windSpeed);
         this.phenomenon = Phenomenon.parsePhenomenon(phenomenon);
         this.city = city;
+        this.isErroneous = isErroneous;
+        this.errorMessage = errorMessage;
     }
 
     public void setCity(City city) {

@@ -2,7 +2,9 @@ package com.fujitsu.deliverycostcalc.service;
 
 import com.fujitsu.deliverycostcalc.entity.City;
 import com.fujitsu.deliverycostcalc.entity.WeatherData;
+import com.fujitsu.deliverycostcalc.exception.EmptyXmlTagValueException;
 import com.fujitsu.deliverycostcalc.exception.HttpResponseException;
+import com.fujitsu.deliverycostcalc.exception.MissingXmlTagException;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 import org.w3c.dom.Document;
@@ -42,13 +44,37 @@ public class WeatherDataFetcherService {
         this.weatherDataService = weatherDataService;
     }
 
-    private static String getXmlElementValue(Element element, String tagName) {
+    private static String getXmlTagValue(Element element, String tagName)
+            throws MissingXmlTagException, EmptyXmlTagValueException {
+
         NodeList nodeList = element.getElementsByTagName(tagName);
-        return (0 < nodeList.getLength()) ? nodeList.item(0).getTextContent() : "N/A";
+        if (nodeList.getLength() == 0) {
+            throw new MissingXmlTagException(tagName);
+        }
+
+        String value = nodeList.item(0).getTextContent().trim();
+        if (value.isEmpty()) {
+            throw new EmptyXmlTagValueException(tagName);
+        }
+
+        return value;
+    }
+
+    private static String tryReadTagValue(Element element, String tagName, StringBuilder errorCollector)
+            throws MissingXmlTagException {
+
+        try {
+            return getXmlTagValue(element, tagName);
+        } catch (EmptyXmlTagValueException exception) {
+            errorCollector.append(exception.getMessage()).append("\n");
+            return null;
+        }
     }
 
     @Transactional
-    public void fetchWeatherData() throws ParserConfigurationException, IOException, SAXException {
+    public void fetchWeatherData() throws ParserConfigurationException, IOException, SAXException,
+            MissingXmlTagException {
+
         HashMap<String, City> citiesByStationName = cityService.getCitiesMappedByStationName();
         Set<String> stationNames = new HashSet<>(citiesByStationName.keySet());
 
@@ -66,27 +92,39 @@ public class WeatherDataFetcherService {
             if (node.getNodeType() == Node.ELEMENT_NODE) {
                 Element element = (Element) node;
 
-                String stationName = getXmlElementValue(element, STATION_NAME_TAG);
+                String stationName;
+                try {
+                    stationName = getXmlTagValue(element, STATION_NAME_TAG);
+                } catch (EmptyXmlTagValueException exception) {
+                    // TODO: Some kind of logging
+                    continue;
+                }
 
                 City city = citiesByStationName.get(stationName);
                 if (city != null) {
-                    String wmoCode = getXmlElementValue(element, WMO_CODE_TAG);
-                    String airTemperature = getXmlElementValue(element, AIR_TEMPERATURE_TAG);
-                    String windSpeed = getXmlElementValue(element, WIND_SPEED_TAG);
-                    String phenomenon = getXmlElementValue(element, WEATHER_PHENOMENON_TAG);
+                    StringBuilder errorMessages = new StringBuilder();
+
+                    String wmoCode = tryReadTagValue(element, WMO_CODE_TAG, errorMessages);
+                    String airTemperature = tryReadTagValue(element, AIR_TEMPERATURE_TAG, errorMessages);
+                    String windSpeed = tryReadTagValue(element, WIND_SPEED_TAG, errorMessages);
+                    String phenomenon = tryReadTagValue(element, WEATHER_PHENOMENON_TAG, errorMessages);
 
                     WeatherData data = new WeatherData(
                             timestamp,
                             airTemperature,
                             windSpeed,
                             phenomenon,
-                            city
+                            city,
+                            !errorMessages.isEmpty(),
+                            errorMessages.toString()
                     );
 
                     weatherDataService.save(data);
 
-                    city.refreshWMOCode(wmoCode);
-                    cityService.save(city);
+                    if (wmoCode != null) {
+                        city.refreshWMOCode(wmoCode);
+                        cityService.save(city);
+                    }
 
                     stationNames.remove(stationName);
                     if (stationNames.isEmpty()) {

@@ -1,5 +1,6 @@
 package com.fujitsu.deliverycostcalc.scheduler;
 
+import com.fujitsu.deliverycostcalc.exception.MissingXmlTagException;
 import com.fujitsu.deliverycostcalc.service.WeatherDataFetcherService;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
@@ -19,7 +20,9 @@ public class WeatherDataScheduler {
     }
 
     @Scheduled(cron = WEATHER_DATA_SCHEDULER_CRON_EXPRESSION)
-    public void fetchWeatherData() throws ParserConfigurationException, IOException, SAXException {
+    public void fetchWeatherData() throws ParserConfigurationException, IOException, SAXException,
+            MissingXmlTagException {
+
         weatherDataFetcherService.fetchWeatherData();
     }
 }
