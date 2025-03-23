@@ -83,6 +83,10 @@ public class WeatherData {
         this.airTemperature = airTemperature;
     }
 
+    public Instant getTimestamp() {
+        return timestamp;
+    }
+
     @Override
     public String toString() {
         return "\tWeatherData {" +
